@@ -66,6 +66,21 @@ class Grid{
 	}
 }
 
+function drawSquares(allSquares){
+    ctx.globalAlpha = 1;
+	// fill the canvas background with white
+	ctx.fillStyle="red";
+	console.log("in drawSquares");
+	// draw the blue grid background
+	for (var sqCount=0;sqCount < allSquares.length;sqCount++)
+	{
+        console.log("filling squares...");
+		ctx.strokeRect(allSquares[sqCount].top,allSquares[sqCount].left,
+            allSquares[sqCount].size,allSquares[sqCount].size);
+	}
+
+}
+
 function drawGameBoard() {
 	ctx.globalAlpha = 1;
 	// fill the canvas background with white
