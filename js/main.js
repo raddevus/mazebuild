@@ -26,7 +26,7 @@ function initApp(){
 }
 
 class GridSquare{
-	constructor(size){
+	constructor(size,top,right,bottom,left){
 		this.size = size;
 		this.top = top;
 		this.right = right;
@@ -40,16 +40,28 @@ class Grid{
 	
 	constructor(squareSize, squareCount, offset){
 		// this needs to be true so grid is a square --> Math.sqrt(squareCount)%2 == 0
+        this.rowSize = Math.ceil(Math.sqrt(squareCount));
 		this.offset = offset;
+        this.squareCount = squareCount;
+        this.squareSize = squareSize;
 		this.allSquares = [];
-		this.initializeSquares(squareSize, squareCount);
+		this.initializeSquares(squareSize);
 	}
 
-	initializeSquares(size, count){
+	initializeSquares(){
 		console.log("initializeSquares...");
-		console.log(`total size will be size*count*offset: ${size*count+this.offset}`);
-		for (let i = 0;i<count;i++){
-			let gs = new GridSquare(size,top,right,bottom,left);
+		console.log(`total size will be size*count*offset: ${this.squareSize*this.squareCount+this.offset}`);
+        let row = 0;
+        let col = 0;
+		for (let i = 0;i<this.rowSize;i++){
+            row = (i % this.rowSize);
+            console.log(`row : ${row}`);
+            for (let j = 0;j<this.rowSize;j++){
+                col = (j%this.rowSize);
+                let gs = new GridSquare(this.squareSize,this.squareSize*row,(col+1)*this.squareSize,(row+1)*this.squareSize,this.squareSize*col);
+                this.allSquares.push(gs);
+            }
+
 		}
 	}
 }
