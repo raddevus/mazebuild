@@ -39,7 +39,7 @@ class Grid{
 	// numberOfGridSquares * gridSquare.Size = total size of Grid
 	
 	constructor(squareSize, squareCount, offset){
-		// this needs to be true so grid is a square --> Math.sqrt(16)%2 == 0
+		// this needs to be true so grid is a square --> Math.sqrt(squareCount)%2 == 0
 		this.offset = offset;
 		this.allSquares = [];
 		this.initializeSquares(squareSize, squareCount);
