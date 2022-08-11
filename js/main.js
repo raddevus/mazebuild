@@ -25,6 +25,35 @@ function initApp(){
 	drawGameBoard();
 }
 
+class GridSquare{
+	constructor(size){
+		this.size = size;
+		this.top = top;
+		this.right = right;
+		this.bottom = bottom;
+		this.left = left;
+	}
+}
+
+class Grid{
+	// numberOfGridSquares * gridSquare.Size = total size of Grid
+	
+	constructor(squareSize, squareCount, offset){
+		// this needs to be true so grid is a square --> Math.sqrt(16)%2 == 0
+		this.offset = offset;
+		this.allSquares = [];
+		this.initializeSquares(squareSize, squareCount);
+	}
+
+	initializeSquares(size, count){
+		console.log("initializeSquares...");
+		console.log(`total size will be size*count*offset: ${size*count+this.offset}`);
+		for (let i = 0;i<count;i++){
+			let gs = new GridSquare(size,top,right,bottom,left);
+		}
+	}
+}
+
 function drawGameBoard() {
 	ctx.globalAlpha = 1;
 	// fill the canvas background with white
