@@ -81,6 +81,19 @@ function drawSquares(allSquares){
 
 }
 
+function removeLeftSide(square){
+    ctx.globalAlpha = 1;
+	// fill the canvas background with white
+    ctx.fillStyle = "red";
+    ctx.fillRect(square.top,square.left,square.size,square.size);
+	console.log(`begin path`)
+    ctx.beginPath();
+    ctx.moveTo(square.top, square.left);
+    ctx.lineTo(square.bottom, square.left);
+    ctx.strokeStyle="red";
+    ctx.stroke();
+}
+
 function drawGameBoard() {
 	ctx.globalAlpha = 1;
 	// fill the canvas background with white
