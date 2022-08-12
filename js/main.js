@@ -71,6 +71,8 @@ function drawSquares(allSquares){
     ctx.globalAlpha = 1;
 	// fill the canvas background with white
 	ctx.fillStyle="red";
+	ctx.strokeStyle="black";
+	ctx.lineWidth=1;
 	console.log("in drawSquares");
 	// draw the blue grid background
 	for (var sqCount=0;sqCount < allSquares.length;sqCount++)
@@ -89,7 +91,82 @@ function fillSquare(square, color){
     ctx.fillRect(square.left,square.top,square.size,square.size);
 }
 
+function generateMaze(){
+	for (let i = 0;i < mainGrid.allSquares.length;i++){
+		console.log(`in loop  : ${i}`);
+		let currentSquare = mainGrid.allSquares[i];
+		if (currentSquare.left == 0){
+			if (currentSquare.top == 0){
+				// if both top & left are 0 then do nothing -- you are at the edge.
+				continue;
+			}
+			else{
+				// once you take an action on the square, you are done
+				removeTop(currentSquare);
+				continue;
+			}
+		}
+		if (currentSquare.top == 0){
+			if (currentSquare.left == 0){
+				continue;
+			}
+			else{
+				// once you take an action on the square, you are done
+				removeLeft(currentSquare);
+				continue;
+			}
+		}
+		switch (genRandomNumber(2)){
+			case 1 :{
+				removeLeft(currentSquare);
+				break;
+			}
+			case 2: {
+				removeTop(currentSquare);
+				break;
+			}
+		}
+	}
+}
 
+function generateMazeUseBottom(){
+	let max_bottom = mainGrid.squareSize * mainGrid.rowSize;
+	for (let i = 0;i < mainGrid.allSquares.length;i++){
+		console.log(`in loop  : ${i}`);
+		let currentSquare = mainGrid.allSquares[i];
+		if (currentSquare.left == 0){
+			if (currentSquare.bottom == max_bottom){
+				// if both top & left are 0 then do nothing -- you are at the edge.
+				continue;
+			}
+			else{
+				// once you take an action on the square, you are done
+				removeBottom(currentSquare);
+				continue;
+			}
+		}
+		if (currentSquare.bottom == max_bottom){
+			if (currentSquare.left == 0){
+				continue;
+			}
+			else{
+				// once you take an action on the square, you are done
+				removeLeft(currentSquare);
+				continue;
+			}
+		}
+		switch (genRandomNumber(2)){
+			case 1 :{
+				removeLeft(currentSquare);
+				break;
+			}
+			case 2: {
+				removeBottom(currentSquare);
+				break;
+			}
+		}
+	}
+}
 
 function removeLeft(square){
     ctx.globalAlpha = 1;
@@ -115,12 +192,24 @@ function removeTop(square){
     ctx.stroke();
 }
 
+function removeBottom(square){
+    ctx.globalAlpha = 1;
+	    
+	console.log(`begin path`)
+    ctx.beginPath();
+    ctx.moveTo(square.left,square.bottom );
+    ctx.lineTo(square.right,square.bottom);
+    ctx.lineWidth=5;
+    ctx.strokeStyle="white";
+    ctx.stroke();
+}
+
 function drawGrid() {
 	ctx.globalAlpha = 1;
 	// fill the canvas background with white
 	ctx.fillStyle="white";
 	ctx.fillRect(0,0,ctx.canvas.height,ctx.canvas.width);
-	mainGrid = new Grid(60,64,15);
+	mainGrid = new Grid(30,256,15);
     drawSquares(mainGrid.allSquares);
 	
 }
