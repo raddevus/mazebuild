@@ -54,12 +54,13 @@ class Grid{
 		console.log(`total size will be size*count*offset: ${this.squareSize*this.squareCount+this.offset}`);
         let row = 0;
         let col = 0;
+		let counterId = 0;
 		for (let i = 0;i<this.rowSize;i++){
             row = (i % this.rowSize);
             console.log(`row : ${row}`);
             for (let j = 0;j<this.rowSize;j++){
                 col = (j%this.rowSize);
-                let gs = new GridSquare(i+j,this.squareSize*row,(col+1)*this.squareSize,(row+1)*this.squareSize,this.squareSize*col);
+                let gs = new GridSquare(counterId++,this.squareSize*row,(col+1)*this.squareSize,(row+1)*this.squareSize,this.squareSize*col);
                 this.allSquares.push(gs);
             }
 
