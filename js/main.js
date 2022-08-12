@@ -10,6 +10,7 @@ var allRobots = [];
 var intervalID = null;
 var selectedCount = 0;
 var masterRobot = null;
+let mainGrid = null;
 
 function initApp(){
 	theCanvas = document.getElementById("gamescreen");
@@ -75,22 +76,29 @@ function drawSquares(allSquares){
 	for (var sqCount=0;sqCount < allSquares.length;sqCount++)
 	{
         console.log("filling squares...");
-		ctx.strokeRect(allSquares[sqCount].top,allSquares[sqCount].left,
+		ctx.strokeRect(allSquares[sqCount].left,allSquares[sqCount].top,
             allSquares[sqCount].size,allSquares[sqCount].size);
 	}
 
 }
 
+function fillSquare(square, color){
+    ctx.globalAlpha = 1;
+	// fill the canvas background with white
+    ctx.fillStyle = color;
+    ctx.fillRect(square.left,square.top,square.size,square.size);
+}
+
 function removeLeftSide(square){
     ctx.globalAlpha = 1;
 	// fill the canvas background with white
-    ctx.fillStyle = "red";
-    ctx.fillRect(square.top,square.left,square.size,square.size);
+    
 	console.log(`begin path`)
     ctx.beginPath();
-    ctx.moveTo(square.top, square.left);
-    ctx.lineTo(square.bottom, square.left);
-    ctx.strokeStyle="red";
+    ctx.moveTo(square.left,square.top );
+    ctx.lineTo(square.left,square.bottom);
+    ctx.lineWidth=5;
+    ctx.strokeStyle="white";
     ctx.stroke();
 }
 
@@ -99,14 +107,9 @@ function drawGameBoard() {
 	// fill the canvas background with white
 	ctx.fillStyle="white";
 	ctx.fillRect(0,0,ctx.canvas.height,ctx.canvas.width);
+	mainGrid = new Grid(60,64,15);
+    drawSquares(mainGrid.allSquares);
 	
-	// draw the blue grid background
-	for (var lineCount=0;lineCount<LINES;lineCount++)
-	{
-		ctx.fillStyle=gridColor;
-		ctx.fillRect(0,lineInterval*(lineCount+1),ctx.canvas.width,2);
-		ctx.fillRect(lineInterval*(lineCount+1),0,2,ctx.canvas.width);
-	}
 }
 
 function robot (r){
