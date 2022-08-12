@@ -23,7 +23,7 @@ function initApp(){
 	// theCanvas.addEventListener("mousedown", mouseDownHandler);
 	// intervalID = window.setInterval(mainGameLoop, 125);
 	lineInterval = Math.floor(ctx.canvas.width / LINES);
-	drawGameBoard();
+	drawGrid();
 }
 
 class GridSquare{
@@ -89,7 +89,9 @@ function fillSquare(square, color){
     ctx.fillRect(square.left,square.top,square.size,square.size);
 }
 
-function removeLeftSide(square){
+
+
+function removeLeft(square){
     ctx.globalAlpha = 1;
 	    
 	console.log(`begin path`)
@@ -113,7 +115,7 @@ function removeTop(square){
     ctx.stroke();
 }
 
-function drawGameBoard() {
+function drawGrid() {
 	ctx.globalAlpha = 1;
 	// fill the canvas background with white
 	ctx.fillStyle="white";
