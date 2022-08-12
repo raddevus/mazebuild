@@ -91,12 +91,23 @@ function fillSquare(square, color){
 
 function removeLeftSide(square){
     ctx.globalAlpha = 1;
-	// fill the canvas background with white
-    
+	    
 	console.log(`begin path`)
     ctx.beginPath();
     ctx.moveTo(square.left,square.top );
     ctx.lineTo(square.left,square.bottom);
+    ctx.lineWidth=5;
+    ctx.strokeStyle="white";
+    ctx.stroke();
+}
+
+function removeTop(square){
+    ctx.globalAlpha = 1;
+	    
+	console.log(`begin path`)
+    ctx.beginPath();
+    ctx.moveTo(square.left,square.top );
+    ctx.lineTo(square.right,square.top);
     ctx.lineWidth=5;
     ctx.strokeStyle="white";
     ctx.stroke();
@@ -110,153 +121,6 @@ function drawGameBoard() {
 	mainGrid = new Grid(60,64,15);
     drawSquares(mainGrid.allSquares);
 	
-}
-
-function robot (r){
-	this.x = r.x || 200;
-	this.y = r.y || 200;
-	this.color = r.color || "black";
-	this.size = r.size || 10;
-	this.maxSize = r.maxSize || null;
-	this.maxAge = r.maxAge || null;
-	this.isSelected = r.isSelected || false;
-	this.age = r.age || 1;
-	this.isAlive = true;
-	this.globalAlpha = r.globalAlpha || 1;
-	this.offGridCount = 0;
-	
-	this.calculatePosition = function(){
-		var flag = genRandomNumber(2);
-		var addFlag = genRandomNumber(2);
-		//console.log(flag);
-		if (flag > 1){
-			if (addFlag > 1){
-				this.x += genRandomNumber(4) + genRandomNumber(3);
-				}else{
-				this.x -= genRandomNumber(4) + genRandomNumber(3);
-				}
-			}
-		else{
-			if (addFlag > 1){
-			this.y += genRandomNumber(4) + genRandomNumber(3);
-			}
-			else{
-				this.y -= genRandomNumber(4) + genRandomNumber(3);
-			}
-		}
-		if (this.x >= 650 || this.x <= 0 || this.y >= 650 || this.y <=0)
-		{
-			this.offGridCount +=1;
-		}
-		if (this.offGridCount >=2){
-			this.isAlive = false;
-		}
-		//console.log ("x : " + this.x + " y : " + this.y);
-	}
-	this.advanceAge = function() {
-		// console.log("advanceAge...");
-		if (this.age >= this.maxAge){
-			this.isAlive = false;
-			return;
-		} 
-		this.age +=1;
-		// console.log("this.age : " + this.age);
-		this.grow();
-	}
-	this.grow = function() {
-		if (this.age % 100 == 0){
-			if (this.maxSize == null || this.size < this.maxSize){
-				this.size +=1;
-			}
-		}
-		if (this.age % 200 == 0){
-			this.globalAlpha -= .1;
-			if (this.globalAlpha <= .2){
-				this.isAlive = false;
-			}
-		}
-	}
-	this.drawRobotHighlight = function(){
-		ctx.beginPath();
-		ctx.lineWidth = 2;
-		ctx.arc(this.x, this.y,this.size + 7,0,2*Math.PI);
-		ctx.strokeStyle = "black";
-		ctx.globalAlpha = 1;
-		ctx.stroke();
-	}
-	this.drawRobot = function (){
-		//console.log("robot size : " + allRobots[idx].size);
-		ctx.fillStyle = this.color;
-		ctx.strokeStyle= this.color;
-		if (this.isSelected) {
-			this.drawRobotHighlight();
-		}
-		ctx.globalAlpha = this.globalAlpha;
-		ctx.beginPath();
-		ctx.arc(this.x, this.y,this.size,0,2*Math.PI);
-		ctx.stroke();
-		ctx.fill();
-		// reset opacity
-		ctx.globalAlpha = 1;
-	}
-	this.initRobot = function(){
-		this.maxSize = this.calcMaxSize();
-		//console.log("maxSize : " + this.maxSize);
-		this.calcMaxAge();
-	}
-	this.calcMaxSize = function(){
-		return genRandomNumber(15) + 10;
-	}
-	this.calcMaxAge = function (){
-		this.maxAge = genRandomNumber (40000) + 10000;
-		//console.log ("maxAge : " + this.maxAge);
-	}
-	
-	this.initRobot();
-}
-
-function mainGameLoop(){
-	for (var idx = allRobots.length-1; idx >= 0;idx--){
-		if (!allRobots[idx].isAlive){
-			console.log("died at: " + allRobots[idx].age);
-			if (allRobots[idx].isSelected){
-				selectedCount--;
-			}
-			allRobots.splice(idx,1);
-			if (masterRobot != null){
-				if (!masterRobot.isAlive){
-					masterRobot = null;
-				}
-			}
-		} 
-		allRobots[idx].advanceAge();
-		allRobots[idx].calculatePosition();
-	}
-	if (allRobots.length < 48){
-		allRobots.push(new robot({x:genRandomNumber(600),y:genRandomNumber(600),color:getRandomColor()}));
-	}
-	drawGameBoard();
-	drawRobots();
-	if (masterRobot != null){
-		drawConnectedRobots();
-	}
-}
-
-
-function drawConnectedRobots(){
-	for (var i = 0; i < allRobots.length;i++){
-		masterRobot.isSelected = true;
-		if (masterRobot.color == allRobots[i].color){
-			drawLine(masterRobot, allRobots[i], masterRobot.color); 
-		}
-	}
-}
-
-function drawRobots(){
-	for (var i = 0; i < allRobots.length;i++)
-	{
-		allRobots[i].drawRobot();
-	}
 }
 
 function getMousePos(evt) {
