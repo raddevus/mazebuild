@@ -27,8 +27,8 @@ function initApp(){
 }
 
 class GridSquare{
-	constructor(size,top,right,bottom,left){
-		this.size = size;
+	constructor(gridNumber,top,right,bottom,left){
+		this.gridNumber = gridNumber;
 		this.top = top;
 		this.right = right;
 		this.bottom = bottom;
@@ -46,7 +46,7 @@ class Grid{
         this.squareCount = squareCount;
         this.squareSize = squareSize;
 		this.allSquares = [];
-		this.initializeSquares(squareSize);
+		this.initializeSquares();
 	}
 
 	initializeSquares(){
@@ -59,7 +59,7 @@ class Grid{
             console.log(`row : ${row}`);
             for (let j = 0;j<this.rowSize;j++){
                 col = (j%this.rowSize);
-                let gs = new GridSquare(this.squareSize,this.squareSize*row,(col+1)*this.squareSize,(row+1)*this.squareSize,this.squareSize*col);
+                let gs = new GridSquare(i+j,this.squareSize*row,(col+1)*this.squareSize,(row+1)*this.squareSize,this.squareSize*col);
                 this.allSquares.push(gs);
             }
 
@@ -79,7 +79,7 @@ function drawSquares(allSquares){
 	{
         console.log("filling squares...");
 		ctx.strokeRect(allSquares[sqCount].left,allSquares[sqCount].top,
-            allSquares[sqCount].size,allSquares[sqCount].size);
+            mainGrid.squareSize,mainGrid.squareSize);
 	}
 
 }
